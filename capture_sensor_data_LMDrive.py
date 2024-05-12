@@ -34,28 +34,59 @@ import glob
 
 from queue import Queue, Empty
 from leaderboard.envs.sensor_interface import SensorInterface
-from srunner.scenariomanager.timer import GameTime
+# from srunner.scenariomanager.timer import GameTime
 
 ################### User simulation configuration ####################
 import numpy as np
 import shutil
-import sys
-sys.path.append('/home/zc/LMDrive')
-from LMDrive.leaderboard.team_code.data_record_agent import DataRecorder
+from data_tools.data_record_agent import DataRecorder
 
-from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
-from carla_birdeye_view import BirdViewProducer, BirdViewCropType, PixelDimensions
+# from srunner.scenariomanager.carla_data_provider import CarlaDataProvider
+# from carla_birdeye_view import BirdViewProducer, BirdViewCropType, PixelDimensions
 
 
 batch_generate = False
 # 1) Choose the sensors
+rgb_sensor_data = {"width": 800, "height": 600, "fov": 100}
 SENSORS = [
     [
-        'CameraTest',
+        'rgb_front',
         {
             'bp': 'sensor.camera.rgb',
-            'image_size_x': 720, 'image_size_y': 1080, 'fov': 100,
-            'x': 0.7, 'y': 0.0, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0
+            'image_size_x': rgb_sensor_data["width"], 
+            'image_size_y': rgb_sensor_data["height"], 
+            'fov': rgb_sensor_data["fov"],
+            'x': 1.3, 'y': 0.0, 'z': 2.3, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0
+        },
+    ],
+    [
+        'rgb_rear',
+        {
+            'bp': 'sensor.camera.rgb',
+            'image_size_x': rgb_sensor_data["width"], 
+            'image_size_y': rgb_sensor_data["height"], 
+            'fov': rgb_sensor_data["fov"],
+            'x': -1.3, 'y': 0.0, 'z': 2.3, 'roll': 0.0, 'pitch': 0.0, 'yaw': 180.0
+        },
+    ],
+    [
+        'rgb_left',
+        {
+            'bp': 'sensor.camera.rgb',
+            'image_size_x': rgb_sensor_data["width"], 
+            'image_size_y': rgb_sensor_data["height"], 
+            'fov': rgb_sensor_data["fov"],
+            'x': 1.3, 'y': 0.0, 'z': 2.3, 'roll': 0.0, 'pitch': 0.0, 'yaw': -60.0
+        },
+    ],
+    [
+        'rgb_right',
+        {
+            'bp': 'sensor.camera.rgb',
+            'image_size_x': rgb_sensor_data["width"], 
+            'image_size_y': rgb_sensor_data["height"], 
+            'fov': rgb_sensor_data["fov"],
+            'x': 1.3, 'y': 0.0, 'z': 2.3, 'roll': 0.0, 'pitch': 0.0, 'yaw': 60.0
         },
     ],
     [
@@ -70,23 +101,25 @@ SENSORS = [
         },
     ],
     [
-        'GnssTest',
+        'gps',
         {
             'bp': 'sensor.other.gnss',
-            'x': 0.7, 'y': 0.0, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
-            'noise_alt_stddev': 0.000005, 'noise_lat_stddev': 0.000005, 'noise_lon_stddev': 0.000005,
-            'noise_alt_bias': 0.0, 'noise_lat_bias': 0.0, 'noise_lon_bias': 0.0
+            'x': 0.0, 'y': 0.0, 'z': 0.0, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+            # 'sensor_tick': 0.01
+            # 'noise_alt_stddev': 0.000005, 'noise_lat_stddev': 0.000005, 'noise_lon_stddev': 0.000005,
+            # 'noise_alt_bias': 0.0, 'noise_lat_bias': 0.0, 'noise_lon_bias': 0.0
         }
     ],
     [
-        'IMUTest',
+        'imu',
         {
             'bp': 'sensor.other.imu',
-            'x': 0.7, 'y': 0.0, 'z': 1.60, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
-            'noise_accel_stddev_x': 0.001, 'noise_accel_stddev_y': 0.001, 'noise_accel_stddev_z': 0.015,
-            'noise_gyro_stddev_x': 0.001,'noise_gyro_stddev_y': 0.001, 'noise_gyro_stddev_z': 0.001
+            'x': 0.0, 'y': 0.0, 'z': 0.0, 'roll': 0.0, 'pitch': 0.0, 'yaw': 0.0,
+            # 'sensor_tick': 0.05
+            # 'noise_accel_stddev_x': 0.001, 'noise_accel_stddev_y': 0.001, 'noise_accel_stddev_z': 0.015,
+            # 'noise_gyro_stddev_x': 0.001,'noise_gyro_stddev_y': 0.001, 'noise_gyro_stddev_z': 0.001
         }
-    ]
+    ],
 ]
 
 # 2) Choose a weather
@@ -97,13 +130,28 @@ WEATHER = carla.WeatherParameters(
     fog_density=2.0, fog_distance=0.0, fog_falloff=0.0)
 
 # 3) Choose the recorder files
+
 RECORDER_INFO = [
+    # {
+    #     'folder': "/home/zc/carla/lb2/leaderboard/data_tools/ScenarioLogs/Accident",
+    #     # 'folder': "RouteLogs/0",
+    #     'name': 'Accident',
+    #     'start_time': 10,
+    #     'duration': 20
+    # },
+    # {
+    #     'folder': "/home/zc/carla/lb2/leaderboard/data_tools/ScenarioLogs/DynamicObjectCrossing_right_container",
+    #     # 'folder': "RouteLogs/0",
+    #     'name': 'DynamicObjectCrossing_right_container',
+    #     'start_time': 5,
+    #     'duration': 20
+    # },
     {
-        'folder': "/home/zc/carla/lb2/leaderboard/database/ScenarioLogs/Accident",
+        'folder': "/home/zc/carla/lb2/leaderboard/data_tools/ScenarioLogs/SignalizedJunctionLeftTurn_fast",
         # 'folder': "RouteLogs/0",
-        'name': 'Accident',
-        'start_time': 10,
-        'duration': 30
+        'name': 'SignalizedJunctionLeftTurn_fast',
+        'start_time': 5,
+        'duration': 20
     }
 ]
 
@@ -156,6 +204,11 @@ def create_folders(endpoint, sensors):
     if not os.path.exists(folder):
         os.makedirs(folder)
 
+    # Create measurements folder
+    folder = f"{endpoint}/measurements"
+    if not os.path.exists(folder):
+        os.makedirs(folder)
+
 
 def add_listener(sensor, sensor_queue, sensor_id):
     sensor.listen(lambda data: sensor_listen(data, sensor_queue, sensor_id))
@@ -190,7 +243,7 @@ def get_ego_id(recorder_file):
     return found_id
 
 
-def save_data_to_disk(sensor_id, frame, data, imu_data, endpoint, additional_data, affordances, actors_data):
+def save_data_to_disk(sensor_id, frame, data, imu_data, endpoint):
     """
     Saves the sensor data into file:
     - 3D Bounding Box               ->              '.npy', one per frame, named as the frame id
@@ -205,13 +258,10 @@ def save_data_to_disk(sensor_id, frame, data, imu_data, endpoint, additional_dat
     global CURRENT_THREADS
     CURRENT_THREADS += 1
     if isinstance(data, carla.Image):
-        # sensor_endpoint = f"{endpoint}/{sensor_id}/{frame}.png"
         sensor_endpoint = f"{endpoint}/{sensor_id}/{frame:04d}.jpg"
         data.save_to_disk(sensor_endpoint)
 
     elif isinstance(data, carla.LidarMeasurement):
-        # sensor_endpoint = f"{endpoint}/{sensor_id}/{frame}.ply"
-        # sensor_endpoint = f"{endpoint}/lidar_temp/{frame:04d}.npy"
         sensor_endpoint = f"{endpoint}/lidar_temp/{frame:04d}.npy"
         data.save_to_disk(sensor_endpoint)
         with open(sensor_endpoint, 'r') as file:
@@ -240,14 +290,6 @@ def save_data_to_disk(sensor_id, frame, data, imu_data, endpoint, additional_dat
         sensor_endpoint = f"{endpoint}/{sensor_id}/{frame}.ply"
         data.save_to_disk(sensor_endpoint)
 
-    elif isinstance(data, carla.RadarMeasurement):
-        sensor_endpoint = f"{endpoint}/{sensor_id}/{frame}.csv"
-        data_txt = f"Altitude,Azimuth,Depth,Velocity\n"
-        for point_data in data:
-            data_txt += f"{point_data.altitude},{point_data.azimuth},{point_data.depth},{point_data.velocity}\n"
-        with open(sensor_endpoint, 'w') as data_file:
-            data_file.write(data_txt)
-
     elif isinstance(data, carla.GnssMeasurement):
         sensor_endpoint = f"{endpoint}/{sensor_id}/gnss_data.csv"
         with open(sensor_endpoint, 'a') as data_file:
@@ -262,19 +304,6 @@ def save_data_to_disk(sensor_id, frame, data, imu_data, endpoint, additional_dat
 
     else:
         print(f"WARNING: Ignoring sensor '{sensor_id}', as no callback method is known for data of type '{type(data)}'.")
-
-    # save bbox
-    bbox_endpoint = f"{endpoint}/3d_bbs/{frame:04d}.npy"
-    np.save(bbox_endpoint, additional_data)
-
-    # save affordances
-    affordances_endpoint = f"{endpoint}/affordances/{frame:04d}.npy"
-    np.save(affordances_endpoint, affordances)
-
-    # save actors_data
-    actors_data_endpoint = f"{endpoint}/actors_data/{frame:04d}.json"
-    with open(actors_data_endpoint, 'w') as file:
-        json.dump(actors_data, file, indent=4)
 
     CURRENT_THREADS -= 1
 
@@ -368,6 +397,26 @@ def set_endpoint(recorder_info):
     return endpoint
 
 
+def save_additional_data(endpoint, frame, bbox, affordances, actors_data, measurements):
+    # save bbox
+    bbox_endpoint = f"{endpoint}/3d_bbs/{frame:04d}.npy"
+    np.save(bbox_endpoint, bbox)
+
+    # save affordances
+    affordances_endpoint = f"{endpoint}/affordances/{frame:04d}.npy"
+    np.save(affordances_endpoint, affordances)
+
+    # save actors_data
+    actors_data_endpoint = f"{endpoint}/actors_data/{frame:04d}.json"
+    with open(actors_data_endpoint, 'w') as file:
+        json.dump(actors_data, file, indent=4)
+
+    # save measurements
+    meas_endpoint = f"{endpoint}/measurements/{frame:04d}.json"
+    with open(meas_endpoint, 'w') as file:
+        json.dump(measurements, file, indent=4)
+
+
 def capture_data():
 
     argparser = argparse.ArgumentParser(description=__doc__)
@@ -377,7 +426,7 @@ def capture_data():
     print(__doc__)
 
     active_sensors = []
-    sensor_interface = SensorInterface()
+    # sensor_interface = SensorInterface()
 
     try:
 
@@ -406,6 +455,13 @@ def capture_data():
             END_POINT = endpoint
 
             print(f"\033[1m> Preparing the world. This may take a while...\033[0m")
+            
+            # location of log praser cache
+            cache_path = endpoint + '/cache.txt'
+            # cache_path = endpoint + '/cache.json'
+            with open(cache_path, 'w') as f:
+                f.write(client.show_recorder_file_info(recorder_path, show_all=True))
+
             recorder_str = client.show_recorder_file_info(recorder_path, False)
             recorder_map = recorder_str.split("\n")[1][5:]
             world = client.load_world(recorder_map)
@@ -441,8 +497,8 @@ def capture_data():
                 imu_logs = None
 
             client.replay_file(recorder_path, recorder_start, recorder_duration, get_ego_id(recorder_str), False)
-            with open(f"{recorder_path[:-4]}.txt", 'w') as fd:
-                fd.write(recorder_str)
+            # with open(f"{recorder_path[:-4]}.txt", 'w') as fd:
+            #     fd.write(recorder_str)
             world.tick()
 
             hero = None
@@ -493,6 +549,9 @@ def capture_data():
 
             ## init LMDrive data record agent
             save_agent = DataRecorder(world, hero)
+
+            sensor_interface = SensorInterface()
+            # input_data = sensor_interface.get_data(frame_diff)
             # save_agent._vehicle = hero
             # save_agent._init()
             # save_agent.birdview_producer = BirdViewProducer(
@@ -514,11 +573,14 @@ def capture_data():
 
                 # Get and save the sensor data from the queue.
                 missing_sensors = sensor_amount
+                data_dict = {}
+                save_add_data =False
+                frame_diff = int(0)
                 while True:
 
                     frame = world.get_snapshot().frame
                     try:
-                        sensor_data = sensor_queue.get(True, 2.0)
+                        sensor_data = sensor_queue.get(True, 5.0)
                         if sensor_data[1] != frame: continue  # Ignore previous frame data
                         missing_sensors -= 1
                     except Empty:
@@ -529,17 +591,9 @@ def capture_data():
                     frame_diff = sensor_data[1] - start_frame
                     data = sensor_data[2]
                     imu_data = [[0,0,0], [0,0,0]] if not imu_logs else imu_logs[int(FPS*recorder_start + frame_diff)]
-
-
-                    # save_agent.tick()
-                    world.tick()
-                    ################### get 3d bbox info ######
-                    bb_info = save_agent._get_3d_bbs()
-                    ################### get affordances info ######
-                    aff_info = save_agent._get_affordances()
-                    ################### get actors_data info ######
-                    actors_info = save_agent.collect_actor_data()
-                    ################### ADD ###################
+                    
+                    # Add sensor data to sensor_data_dict
+                    data_dict[sensor_id] = ((frame_diff, data))
 
                     res = threading.Thread(target=save_data_to_disk, 
                                            args=(
@@ -547,10 +601,7 @@ def capture_data():
                                                frame_diff, 
                                                data, 
                                                imu_data, 
-                                               endpoint, 
-                                               bb_info, 
-                                               aff_info,
-                                               actors_info
+                                               endpoint
                                                ))
                     results.append(res)
                     res.start()
@@ -561,7 +612,20 @@ def capture_data():
                         results = []
 
                     if missing_sensors <= 0:
+                        save_add_data = True
                         break
+
+                ################### ADD ###################
+                if save_add_data:
+                    # get 3d bbox, affordances, actors_data, measurements
+                    bb_info = save_agent._get_3d_bbs()
+                    aff_info = save_agent._get_affordances()
+                    actors_info = save_agent.collect_actor_data()
+                    measurements = save_agent.get_measurement(data_dict)
+
+                    # save additional data of LMDrive
+                    save_additional_data(endpoint, frame_diff, bb_info, aff_info, actors_info, measurements)
+                ################### ADD ###################
 
                 world.tick()
 
@@ -595,7 +659,7 @@ def capture_data():
 
 if __name__ == '__main__':
 
-    log_file_root = "/home/zc/carla/lb2/leaderboard/database/ScenarioLogs/"
+    log_file_root = "/home/zc/carla/lb2/leaderboard/data_tools/ScenarioLogs/"
     
     if batch_generate:
         scenario_list = []

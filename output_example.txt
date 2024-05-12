@@ -1,0 +1,253 @@
+Version: 1
+Map: Town13
+Date: 06/14/23 08:21:44
+
+Frame 1 at 0 seconds
+ Create 9496: spectator (0) at (-122532, -193129, 20980)
+ Create 9513: traffic.yield (4) at (-523943, -70030, 16763.2)
+ Create 9514: traffic.yield (4) at (134949, 121695, 15700)
+ Create 9515: traffic.yield (4) at (138927, 109857, 15700)
+ Create 9519: traffic.stop (4) at (-464570, -18753.2, 16559.9)
+ Create 9520: traffic.stop (4) at (-131492, 34605.4, 15365.1)
+ Create 9521: traffic.stop (4) at (-452113, 455400, 16791.8)
+ Create 9522: traffic.stop (4) at (-165232, 12260.2, 15835.9)
+ Create 10583: traffic.traffic_light (3) at (522766, 332370, 15736.2)
+ Create 10584: traffic.traffic_light (3) at (335288, 52240.9, 17422.8)
+ Create 10585: traffic.traffic_light (3) at (373938, 182461, 17426.3)
+ Create 10586: traffic.traffic_light (3) at (184015, 601412, 14791.3)
+ Create 11721: traffic.speed_limit.60 (4) at (704576, 310341, 16898)
+ Create 11722: traffic.speed_limit.60 (4) at (704656, 334604, 17117.9)
+ Create 11965: traffic.speed_limit.60 (4) at (439421, 440348, 14818.1)
+ Create 11969: traffic.speed_limit.120 (4) at (-571876, 83370.4, 15737.7)
+ Create 11970: traffic.speed_limit.120 (4) at (237320, 587544, 16726.3)
+ Create 12024: traffic.speed_limit.90 (4) at (-576339, 139719, 16486.4)
+ Create 12025: traffic.speed_limit.90 (4) at (-61447.3, 74649.2, 14988.8)
+ Create 12026: traffic.speed_limit.90 (4) at (-62111.4, 75506.8, 14988.8)
+ Create 12027: traffic.speed_limit.90 (4) at (-85888, 61463.8, 15029.4)
+ Create 12518: traffic.speed_limit.40 (4) at (647576, 551049, 17324.3)
+ Create 12519: traffic.speed_limit.40 (4) at (634261, 377188, 16474.6)
+ Create 14179: vehicle.lincoln.mkz_2020 (1) at (-122532, -193129, 15921)
+  has_lights = true
+  generation = 2
+  has_dynamic_doors = true
+  number_of_wheels = 4
+  base_type = car
+  special_type = 
+  object_type = 
+  terramechanics = false
+  sticky_control = true
+  driver_id = 0
+  color = 0,0,0
+  role_name = hero
+ Create 14180: static.prop.warningaccident (0) at (-117055, -189076, 16017.3)
+  size = medium
+  role_name = scenario
+ Create 14181: vehicle.dodge.charger_police_2020 (1) at (-110121, -185071, 16150.5)
+  generation = 2
+  has_lights = true
+  number_of_wheels = 4
+  terramechanics = false
+  special_type = emergency
+  base_type = car
+  object_type = 
+  color = 0,0,0
+  has_dynamic_doors = true
+  sticky_control = true
+  role_name = scenario
+ Create 14182: vehicle.nissan.patrol_2021 (1) at (-109277, -184534, 16173.9)
+  generation = 2
+  has_lights = true
+  number_of_wheels = 4
+  terramechanics = false
+  special_type = 
+  base_type = car
+  object_type = 
+  color = 217,217,217
+  has_dynamic_doors = true
+  sticky_control = true
+  role_name = scenario no lights
+ Create 14183: vehicle.dodge.charger_police_2020 (1) at (-108771, -184211, 16190.9)
+  generation = 2
+  has_lights = true
+  number_of_wheels = 4
+  terramechanics = false
+  special_type = emergency
+  base_type = car
+  object_type = 
+  color = 0,0,0
+  has_dynamic_doors = true
+  sticky_control = true
+  role_name = scenario no lights
+ Create 14184: sensor.camera.rgb (5) at (70, 0, 160)
+  chromatic_aberration_intensity = 0.0
+  tint = 0.0
+  shoulder = 0.26
+  toe = 0.55
+  white_clip = 0.04
+  slope = 0.88
+  blur_radius = 0.0
+  blur_amount = 1.0
+  blade_count = 5
+  exposure_speed_down = 1.0
+  min_fstop = 1.2
+  exposure_speed_up = 3.0
+  exposure_max_bright = 12.0
+  motion_blur_min_object_screen_size = 0.1
+  bloom_intensity = 0.675
+  lens_flare_intensity = 0.1
+  black_clip = 0.0
+  motion_blur_max_distortion = 0.35
+  focal_distance = 1000.0
+  motion_blur_intensity = 0.45
+  temp = 6500.0
+  gamma = 2.2
+  enable_postprocess_effects = true
+  iso = 100.0
+  shutter_speed = 200.0
+  exposure_compensation = 0.0
+  exposure_mode = histogram
+  calibration_constant = 16.0
+  lens_y_size = 0.08
+  lens_x_size = 0.08
+  lens_kcube = 0.0
+  lens_k = -1.0
+  lens_circle_multiplier = 0.0
+  fstop = 1.4
+  fov = 100
+  image_size_y = 720
+  chromatic_aberration_offset = 0.0
+  lens_circle_falloff = 5.0
+  image_size_x = 1280
+  sensor_tick = 0.0
+  exposure_min_bright = 10.0
+  role_name = front
+ Parenting 14184 with 14179 (parent)
+ Positions: 6
+  Id: 9496 Location: (-122532, -193129, 20980) Rotation (0, -88.9991, 0)
+  Id: 14179 Location: (-122532, -193129, 15919.5) Rotation (-0.00344848, 0.57071, 33.2492)
+  Id: 14180 Location: (-117055, -189076, 16017.3) Rotation (0, 0.568613, 122.512)
+  Id: 14181 Location: (-110121, -185071, 16134.4) Rotation (0, 0.554844, 32.5118)
+  Id: 14182 Location: (-109277, -184534, 16160.2) Rotation (0, 0.551517, 32.5117)
+  Id: 14183 Location: (-108771, -184211, 16179.7) Rotation (0, 0.547201, 32.5117)
+ State traffic lights: 1138
+  Id: 10605 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10606 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10607 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10608 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10609 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10610 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10611 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10612 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10618 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10619 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10620 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 11719 state: 0 frozen: 0 elapsedTime: 0
+  Id: 11720 state: 0 frozen: 0 elapsedTime: 0
+ Vehicle animations: 4
+  Id: 14179 Steering: 0 Throttle: 0 Brake 0 Handbrake: 0 Gear: 0
+  Id: 14181 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+  Id: 14182 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+  Id: 14183 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+ Walker animations: 0
+ Vehicle light animations: 4
+  Id: 14179 None
+  Id: 14181 Position Special1 Special2
+  Id: 14182 None
+  Id: 14183 None
+Frame 2 at 0.05 seconds
+ Positions: 6
+  Id: 9496 Location: (-122532, -193129, 20980) Rotation (0, -88.9991, 0)
+  Id: 14179 Location: (-122532, -193129, 15919.5) Rotation (-0.00344848, 0.57071, 33.2492)
+  Id: 14180 Location: (-117055, -189076, 16017.3) Rotation (0, 0.568613, 122.512)
+  Id: 14181 Location: (-110121, -185071, 16134.4) Rotation (0, 0.554844, 32.5118)
+  Id: 14182 Location: (-109277, -184534, 16160.2) Rotation (0, 0.551517, 32.5117)
+  Id: 14183 Location: (-108771, -184211, 16179.7) Rotation (0, 0.547201, 32.5117)
+ State traffic lights: 1138
+  Id: 10605 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10606 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10607 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10608 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10609 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10610 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10611 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10612 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10618 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 10619 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10620 state: 2 frozen: 0 elapsedTime: 0.55
+  Id: 11719 state: 0 frozen: 0 elapsedTime: 0
+  Id: 11720 state: 0 frozen: 0 elapsedTime: 0
+ Vehicle animations: 4
+  Id: 14179 Steering: 0 Throttle: 0 Brake 0 Handbrake: 0 Gear: 0
+  Id: 14181 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+  Id: 14182 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+  Id: 14183 Steering: 0 Throttle: 0 Brake 0 Handbrake: 1 Gear: 0
+ Walker animations: 0
+ Vehicle light animations: 4
+  Id: 14179 None
+  Id: 14181 Position Special1 Special2
+  Id: 14182 None
+  Id: 14183 None
+Frame 3 at 35.85 seconds
+ Positions: 17
+  Id: 9496 Location: (-103926, -181669, 23141.5) Rotation (0, -88.9995, 0)
+  Id: 14179 Location: (-103890, -181647, 16141.9) Rotation (0.000548996, 0.629252, 32.5972)
+  Id: 14208 Location: (-107089, -183667, 16111) Rotation (0.000179248, 0.573196, 32.5076)
+  Id: 14225 Location: (-105809, -184949, 16111.7) Rotation (6.36489e-05, -0.529415, -147.478)
+ State traffic lights: 1138
+  Id: 10583 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10584 state: 0 frozen: 0 elapsedTime: 0
+  Id: 10585 state: 0 frozen: 0 elapsedTime: 0
+ Vehicle animations: 16
+  Id: 14179 Steering: 0 Throttle: 0 Brake 0.3 Handbrake: 0 Gear: 2
+  Id: 14208 Steering: 0 Throttle: 0.590913 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14225 Steering: 0 Throttle: 0.379716 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14192 Steering: 0 Throttle: 0.430175 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14193 Steering: 0 Throttle: 0.478057 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14194 Steering: -0.00524115 Throttle: 0 Brake 1 Handbrake: 0 Gear: 0
+  Id: 14226 Steering: 0 Throttle: 0.461069 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14227 Steering: 0 Throttle: 0.423133 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14198 Steering: -0.000175733 Throttle: 0.534409 Brake 0 Handbrake: 0 Gear: 3
+ Walker animations: 0
+ Vehicle light animations: 16
+  Id: 14227 None
+  Id: 14198 None
+  Id: 14199 None
+  Id: 14200 None
+  Id: 14201 Brake
+  Id: 14202 Brake
+  Id: 14206 None
+  Id: 14207 None
+  Id: 14212 None
+Frame 4 at 35.9 seconds
+ Destroy 14188
+ Destroy 14192
+ Destroy 14193
+ Destroy 14194
+ Destroy 14198
+ Destroy 14199
+ Destroy 14200
+ Positions: 5
+  Id: 9496 Location: (-103890, -181647, 23141.9) Rotation (0, -88.9995, 0)
+  Id: 14179 Location: (-103855, -181624, 16142.3) Rotation (0.000747569, 0.568429, 32.5971)
+  Id: 14225 Location: (-105843, -184971, 16111.3) Rotation (-0.00030517, -0.530214, -147.48)
+  Id: 14226 Location: (-105710, -184471, 16117.9) Rotation (0.000299007, -0.534858, -147.492)
+  Id: 14227 Location: (-105361, -185079, 16114.2) Rotation (0.000285987, -0.536648, -147.482)
+ State traffic lights: 1138
+  Id: 11717 state: 2 frozen: 0 elapsedTime: 6.25001
+  Id: 11718 state: 0 frozen: 0 elapsedTime: 0
+  Id: 11719 state: 2 frozen: 0 elapsedTime: 6.25001
+  Id: 11720 state: 2 frozen: 0 elapsedTime: 6.25001
+ Vehicle animations: 4
+  Id: 14179 Steering: 0 Throttle: 0 Brake 0.3 Handbrake: 0 Gear: 2
+  Id: 14225 Steering: -0.00061556 Throttle: 0.470887 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14226 Steering: 0 Throttle: 0.410105 Brake 0 Handbrake: 0 Gear: 2
+  Id: 14227 Steering: 0 Throttle: 0.423213 Brake 0 Handbrake: 0 Gear: 2
+ Walker animations: 0
+ Vehicle light animations: 4
+  Id: 14179 None
+  Id: 14225 None
+  Id: 14226 None
+  Id: 14227 None
+
+Frames: 4
+Duration: 35.9 seconds

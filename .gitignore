@@ -5,3 +5,6 @@ ScenarioLogs/
 # zip files
 RouteLogs.zip
 ScenarioLogs.zip
+
+# cache
+*cache*
